@@ -88,13 +88,15 @@ export GITHUB_TOKEN="YOUR_TOKEN_HERE"
 export GH_TOKEN="$GITHUB_TOKEN"
 ```
 
-如果希望服务启动时自动加载，可写入仅管理员可读的环境文件，例如：
+如果希望服务启动时自动加载，可写入仅管理员可读的**专用**环境文件，例如：
 
 ```bash
 sudo touch /etc/github.env
 sudo chmod 600 /etc/github.env
 sudo sh -c 'echo GITHUB_TOKEN="YOUR_TOKEN_HERE" > /etc/github.env'
 ```
+
+上面示例假设 `/etc/github.env` 专门用于保存这个 Token；如果该文件还保存了其他环境变量，请先人工确认内容，再按需追加。
 
 然后在 `systemd` 服务中引用：
 
@@ -125,14 +127,19 @@ curl -H "Authorization: Bearer $GITHUB_TOKEN" \
 
 **2）使用 Git 克隆私有仓库**
 
-不建议把真实 Token 直接拼进命令行；推荐先放入环境变量，再用临时请求头：
+如果对安全要求更高，建议使用权限受限的凭据文件，而不是把 Token 直接放进命令参数。示例：
 
 ```bash
-git -c http.extraHeader="Authorization: Bearer $GITHUB_TOKEN" \
-    clone https://github.com/OWNER/REPO.git
+cat > ~/.netrc <<'EOF'
+machine github.com
+login x-access-token
+password YOUR_TOKEN_HERE
+EOF
+chmod 600 ~/.netrc
+git clone https://github.com/OWNER/REPO.git
 ```
 
-如果担心命令历史暴露敏感操作，可在执行前临时关闭 history，或改用受限权限的凭据文件、密钥管理系统来下发认证信息。
+完成后如无需长期保留，可及时删除 `~/.netrc` 或改用专门的密钥管理系统。
 
 **3）使用 GitHub CLI**
 
