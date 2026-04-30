@@ -79,10 +79,10 @@
 例如，在 Linux 服务器临时设置：
 
 ```bash
-export GITHUB_TOKEN="ghp_xxx"
+export GITHUB_TOKEN="YOUR_TOKEN_HERE"
 ```
 
-如果使用 `gh` 命令，也可设置：
+如果前一步已经设置好 `GITHUB_TOKEN`，使用 `gh` 命令时也可继续设置：
 
 ```bash
 export GH_TOKEN="$GITHUB_TOKEN"
@@ -93,7 +93,7 @@ export GH_TOKEN="$GITHUB_TOKEN"
 ```bash
 sudo touch /etc/github.env
 sudo chmod 600 /etc/github.env
-sudo sh -c 'echo GITHUB_TOKEN="ghp_xxx" >> /etc/github.env'
+sudo sh -c 'echo GITHUB_TOKEN="YOUR_TOKEN_HERE" > /etc/github.env'
 ```
 
 然后在 `systemd` 服务中引用：
