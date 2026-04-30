@@ -91,7 +91,8 @@ export GH_TOKEN="$GITHUB_TOKEN"
 如果希望服务启动时自动加载，可写入仅管理员可读的环境文件，例如：
 
 ```bash
-sudo install -m 600 /dev/null /etc/github.env
+sudo touch /etc/github.env
+sudo chmod 600 /etc/github.env
 sudo sh -c 'echo GITHUB_TOKEN="ghp_xxx" >> /etc/github.env'
 ```
 
