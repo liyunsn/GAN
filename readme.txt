@@ -79,7 +79,7 @@
 例如，在 Linux 服务器临时设置：
 
 ```bash
-export GITHUB_TOKEN="YOUR_TOKEN_HERE"
+export GITHUB_TOKEN="YOUR_TOKEN_HERE"  # 请替换为实际 token
 ```
 
 如果前一步已经设置好 `GITHUB_TOKEN`，使用 `gh` 命令时也可继续设置：
@@ -93,10 +93,16 @@ export GH_TOKEN="$GITHUB_TOKEN"
 ```bash
 sudo touch /etc/github-token.env
 sudo chmod 600 /etc/github-token.env
-sudo sh -c 'echo GITHUB_TOKEN="YOUR_TOKEN_HERE" > /etc/github-token.env'
+sudo editor /etc/github-token.env
 ```
 
-上面示例假设 `/etc/github-token.env` 专门用于保存这个 Token。
+编辑后写入一行：
+
+```ini
+GITHUB_TOKEN=YOUR_TOKEN_HERE
+```
+
+上面示例假设 `/etc/github-token.env` 专门用于保存这个 Token，且该文件权限保持为 `600`。
 
 然后在 `systemd` 服务中引用：
 
@@ -139,7 +145,7 @@ chmod 600 ~/.netrc
 git clone https://github.com/OWNER/REPO.git
 ```
 
-完成后如无需长期保留，可及时删除 `~/.netrc` 或改用专门的密钥管理系统。
+`~/.netrc` 必须保持 `600` 权限；在多用户服务器或会做目录备份的环境中，应优先使用专门的密钥管理系统。完成后如无需长期保留，可及时删除 `~/.netrc`。
 
 **3）使用 GitHub CLI**
 
