@@ -91,18 +91,18 @@ export GH_TOKEN="$GITHUB_TOKEN"
 如果希望服务启动时自动加载，可写入仅管理员可读的**专用**环境文件，例如：
 
 ```bash
-sudo touch /etc/github.env
-sudo chmod 600 /etc/github.env
-sudo sh -c 'echo GITHUB_TOKEN="YOUR_TOKEN_HERE" > /etc/github.env'
+sudo touch /etc/github-token.env
+sudo chmod 600 /etc/github-token.env
+sudo sh -c 'echo GITHUB_TOKEN="YOUR_TOKEN_HERE" > /etc/github-token.env'
 ```
 
-上面示例假设 `/etc/github.env` 专门用于保存这个 Token；如果该文件还保存了其他环境变量，请先人工确认内容，再按需追加。
+上面示例假设 `/etc/github-token.env` 专门用于保存这个 Token。
 
 然后在 `systemd` 服务中引用：
 
 ```ini
 [Service]
-EnvironmentFile=/etc/github.env
+EnvironmentFile=/etc/github-token.env
 ```
 
 #### 第 5 步：在服务器上验证 Token 是否可用
@@ -130,10 +130,10 @@ curl -H "Authorization: Bearer $GITHUB_TOKEN" \
 如果对安全要求更高，建议使用权限受限的凭据文件，而不是把 Token 直接放进命令参数。示例：
 
 ```bash
-cat > ~/.netrc <<'EOF'
+cat > ~/.netrc <<EOF
 machine github.com
 login x-access-token
-password YOUR_TOKEN_HERE
+password ${GITHUB_TOKEN}
 EOF
 chmod 600 ~/.netrc
 git clone https://github.com/OWNER/REPO.git
