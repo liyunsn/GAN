@@ -124,12 +124,14 @@ curl -H "Authorization: Bearer $GITHUB_TOKEN" \
 
 **2）使用 Git 克隆私有仓库**
 
-不建议把 Token 直接写在命令历史中，更推荐用临时请求头：
+不建议把真实 Token 直接拼进命令行；推荐先放入环境变量，再用临时请求头：
 
 ```bash
 git -c http.extraHeader="Authorization: Bearer $GITHUB_TOKEN" \
     clone https://github.com/OWNER/REPO.git
 ```
+
+如果担心命令历史暴露敏感操作，可在执行前临时关闭 history，或改用受限权限的凭据文件、密钥管理系统来下发认证信息。
 
 **3）使用 GitHub CLI**
 
@@ -183,7 +185,7 @@ gh auth status
 GitHub App 不是直接长期使用固定 Token，而是：
 
 1. 使用私钥生成 JWT
-2. 用 JWT 调 GitHub API
+2. 用 JWT 调用 GitHub API
 3. 换取短期有效的 Installation Access Token
 
 这种方式更适合无人值守服务，因为短期 Token 过期后可以再次自动申请。
