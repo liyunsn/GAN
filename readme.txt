@@ -79,7 +79,7 @@
 例如，在 Linux 服务器临时设置：
 
 ```bash
-export GITHUB_TOKEN="YOUR_TOKEN_HERE"  # 请替换为实际 token
+export GITHUB_TOKEN="<your-token-here>"  # 请替换为实际 token
 ```
 
 如果前一步已经设置好 `GITHUB_TOKEN`，使用 `gh` 命令时也可继续设置：
@@ -99,7 +99,7 @@ sudo editor /etc/github-token.env
 编辑后写入一行：
 
 ```ini
-GITHUB_TOKEN=YOUR_TOKEN_HERE
+GITHUB_TOKEN=<your-token-here>
 ```
 
 上面示例假设 `/etc/github-token.env` 专门用于保存这个 Token，且该文件权限保持为 `600`。
